@@ -186,8 +186,8 @@ void Display(void) {
 
 	/*char* p2s[20];
 	sprintf((char *)p2s, "%i",acq);
-	print(490, 575, (char *)p2s);
-	glFlush();*/
+	print(490, 575, (char *)p2s);*/
+	glFlush();
 	}
 	else
 		if(lose &&!win){
