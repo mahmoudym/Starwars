@@ -52,7 +52,12 @@ int acq = 0;
 int meteorY = 0;
 int bonusY = 0;
 int met = 0;
-
+int obj = 1832;
+int ob = 0;
+int pos = 2;
+int indo = 850;
+int indp = 0;
+float obb = 2200.0f;
 void Display(void) {
 	if (!lose && !win){
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -88,33 +93,33 @@ void Display(void) {
 	glTranslatef(0, shipy, 0);
 	glBindTexture(GL_TEXTURE_2D, blackhole);
 	glBegin(GL_POLYGON);
-	glVertex3f(0.0f, 275.0f, 0.0f);
-	glVertex3f(0.0f, 325.0f, 0.0f);
-	glVertex3f(50.0f, 310.0f, 0.0f);
-	glVertex3f(50.0f, 290.0f, 0.0f);
+	glVertex3f(obj, 275.0f, 0.0f);
+	glVertex3f(obj, 325.0f, 0.0f);
+	glVertex3f(obj +50.0f, 310.0f, 0.0f);
+	glVertex3f(obj +50.0f, 290.0f, 0.0f);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, ship);
-	drawRect(50, 290, 150, 310);
+	drawRect(obj +50, 290, obj+150, 310);
 	glBindTexture(GL_TEXTURE_2D, water);
-	drawRect(60, 295, 70, 305);
-	drawRect(80, 295, 90, 305);
-	drawRect(100, 295, 110, 305);
-	drawRect(120, 295, 130, 305);
+	drawRect(obj+60, 295, obj+70, 305);
+	drawRect(obj + 80, 295, obj + 90, 305);
+	drawRect(obj + 100, 295, obj + 110, 305);
+	drawRect(obj + 120, 295, obj + 130, 305);
 	glBindTexture(GL_TEXTURE_2D, red);
 	glBegin(GL_TRIANGLES); // GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN
-	glVertex3f(150.0f, 290.0f, 0.0f);
-	glVertex3f(150.0f, 310.0f, 0.0f);
-	glVertex3f(175.0f, 300.0f, 0.0f);
+	glVertex3f(obj + 150.0f, 290.0f, 0.0f);
+	glVertex3f(obj + 150.0f, 310.0f, 0.0f);
+	glVertex3f(obj + 175.0f, 300.0f, 0.0f);
 	glEnd();
 	glBegin(GL_TRIANGLES); // GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN
-	glVertex3f(90.0f, 310.0f, 0.0f);
-	glVertex3f(140.0f, 310.0f, 0.0f);
-	glVertex3f(90.0f, 340.0f, 0.0f);
+	glVertex3f(obj + 90.0f, 310.0f, 0.0f);
+	glVertex3f(obj + 140.0f, 310.0f, 0.0f);
+	glVertex3f(obj + 90.0f, 340.0f, 0.0f);
 	glEnd();
 	glBegin(GL_TRIANGLES); // GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN
-	glVertex3f(90.0f, 290.0f, 0.0f);
-	glVertex3f(140.0f, 290.0f, 0.0f);
-	glVertex3f(90.0f, 260.0f, 0.0f);
+	glVertex3f(obj + 90.0f, 290.0f, 0.0f);
+	glVertex3f(obj + 140.0f, 290.0f, 0.0f);
+	glVertex3f(obj + 90.0f, 260.0f, 0.0f);
 	glEnd();
 	glPopMatrix();
 
@@ -124,8 +129,8 @@ void Display(void) {
 	glColor3f(1, 1, 1);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 0.0f);			glVertex3f(2200, 0, 0);
-	glTexCoord2f(rep, 0.0f);			glVertex3f(2300, 0, 0);
-	glTexCoord2f(rep, rep);				 glVertex3f(2300, 600, 0);
+	glTexCoord2f(rep, 0.0f);			glVertex3f(2375, 0, 0);
+	glTexCoord2f(rep, rep);				 glVertex3f(2375, 600, 0);
 	glTexCoord2f(0.0f, rep);			 glVertex3f(2200, 600, 0);
 	glEnd();
 	glPopMatrix();
@@ -180,13 +185,13 @@ void Display(void) {
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(x2, y2, 0);
-	glBindTexture(GL_TEXTURE_2D, water);
+	glBindTexture(GL_TEXTURE_2D, blackhole);
 	drawCircle(2250, bonusY, 30);
 	glPopMatrix();
 
-	/*char* p2s[20];
-	sprintf((char *)p2s, "%i",acq);
-	print(490, 575, (char *)p2s);*/
+	char* p2s[20];
+	sprintf((char *)p2s, "Hits:%i, Acquired:%i",hits,acq);
+	print(490, 575, (char *)p2s);
 	glFlush();
 	}
 	else
@@ -237,9 +242,19 @@ void Anim(){
 			back += 0.01;
 		}
 	}
+	
+	switch (pos){
+	case 0: indo = -1925; indp = -2095; obj = 0; break;
+	case 1: indo = -1673; indp = -1700; obj = 366; break;
+	case 2: indo = -850; indp = -970; obj = 1100; break;
+	case 3: indo = -931; indp = -610; obj = 1466; break;
+	case 4: indo = -188; indp = -250; obj = 1832; break;
+	case 5: obj = 2200+obx; break;
+	}
 	score += 0.001;
 	obx -= 0.03;
-	if (obx < -2100){
+	float xx = obj - obx;
+	if (xx>obb){
 		win = true;
 	}
 	x -= 0.5;
@@ -251,39 +266,38 @@ void Anim(){
 	i2 += 0.0005;
 	int* res2 = bezier(i2, p10, p11, p12, p13);
 	x2 = res2[0]; y2 = res[1];
-	if (shipy + 300 >= bonusY + y2 - 30 && shipy + 300 <= bonusY + y2 + 30 && x2 == -2095){
+	if (shipy + 300 >= bonusY + y2 - 30 && shipy + 300 <= bonusY + y2 + 30 && x2 == indp){
 		acq++;
 		if (acq == 3)
 			win = true;
 		else
-			obx -= 0.03;
+			pos++;
 	}
 	switch(met){
 	case 0:
-		if (shipy + 300 >= meteorY + y - 40 && shipy + 300 <= meteorY + y + 50 && x == -1925  ){
+		if (shipy + 300 >= meteorY + y - 40 && shipy + 300 <= meteorY + y + 50 && x == indo){
 			hits++;
 			if (hits == 3)
 				lose = true;
 			else
-				obx += 0.03;
+				pos--;
 		}
 		break;
 	case 1:
-		if (shipy + 300 >= meteorY + y - 35 && shipy + 300 <= meteorY + y + 40 && x == -1925 ){
+		if (shipy + 300 >= meteorY + y - 35 && shipy + 300 <= meteorY + y + 40 && x == indo){
 			hits++;
 			if (hits == 3)
 				lose = true;
 			else
-				obx += 0.03;
+				pos--;
 		} break;
 	case 2:
-		if (shipy + 300 >= meteorY + y - 50 && shipy + 300 <= meteorY + y + 90 && x == -1925){
+		if (shipy + 300 >= meteorY + y - 50 && shipy + 300 <= meteorY + y + 90 && x == indo){
 			hits++;
 			if (hits == 3)
 				lose = true;
 			else
-				obx += 0.03;
-				
+				pos--;
 			
 		} 
 		break;
@@ -357,7 +371,7 @@ void Timer1(int value) {
 	glutPostRedisplay();
 
 	// recall the Timer function after 20 seconds (20,000 milliseconds)
-	glutTimerFunc(25 * 1000, Timer1, 0);
+	glutTimerFunc(57 * 1000, Timer1, 0);
 }
 
 
